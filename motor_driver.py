@@ -1,8 +1,10 @@
 import os
 import can
 
+
 class Motor:
 
+    CONVERSION_FACTOR = 0.01 #dps/LSB
     #constructor
     def __init__(self):
 
@@ -32,11 +34,25 @@ class Motor:
         pass
 
     def __del__(self):
-        self.speedControlM1(0)
-        self.speedControlM0(0)
+        self._speedControlM1(0)
+        self._speedControlM0(0)
+        self.can0.shutdown()
         os.system('sudo ifconfig can0 down')
 
-    def speedControlM0(self, speed):
+    @classmethod
+    def _convert_speed(cls,speed):
+        speed_dps = speed*360/60
+        raw_speed = speed_dps/0.01
+        return int(raw_speed)
+
+    
+    def set_speed_M0(self,speed_rpm):
+        self._speedControlM0(self._convert_speed(speed_rpm))
+
+    def set_speed_M1(self,speed_rpm):
+        self._speedControlM1(self._convert_speed(speed_rpm))
+
+    def _speedControlM0(self, speed):
 
         byte1 = speed & 0xFF
         byte2 = (speed & 0xFF00) >> 8
@@ -51,7 +67,7 @@ class Motor:
         msg = can.Message(arbitration_id = self.motor0ID, data = [self.speedControlCommandID, 0, 0, 0, byte1, byte2, byte3, byte4], is_extended_id=False)
         self.can0.send(msg)
 
-    def speedControlM1(self, speed):
+    def _speedControlM1(self, speed):
 
         byte1 = speed & 0xFF
         byte2 = (speed & 0xFF00) >> 8
