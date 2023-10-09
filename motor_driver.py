@@ -30,6 +30,8 @@ class Motor:
         os.system('sudo ifconfig can0 up')
 
         self.can0 = can.interface.Bus(channel = 'can0', bustype = 'socketcan')#type: ignore
+        self.set_speed_M0(0)
+        self.set_speed_M1(0)
 
         pass
 
