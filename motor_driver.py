@@ -48,6 +48,14 @@ class Motor:
         return int(raw_speed)
 
     
+    def stop(self):
+        self.stopM0()
+        self.stopM1()
+
+    def set_speed(self,m0_speed_rpm,m1_speed_rpm):
+        self.set_speed_M0(m0_speed_rpm)
+        self.set_speed_M1(m1_speed_rpm)
+
     def set_speed_M0(self,speed_rpm):
         self._speedControlM0(self._convert_speed(speed_rpm))
 
