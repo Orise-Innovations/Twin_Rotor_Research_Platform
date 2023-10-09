@@ -1,35 +1,37 @@
 from motor_driver import Motor
 from encoder import Encoder
 from simple_pid import PID
+from IMU_lib import IMU
 import serial
 
-Kp = 0
+MAX_SPEED = 600*5
+Kp = MAX_SPEED//2
 Kd = 0
-MAX_SPEED = 10_000
 Ki = 0
-Limits = (-MAX_SPEED,MAX_SPEED)
-constant = 10_000
+Limits = (-MAX_SPEED//2,MAX_SPEED//2)
+constant = MAX_SPEED//2
 class Stable_Contoller:
     def __init__(self,ser):
         self.encoder = Encoder(ser)
         self.motor = Motor()
         self.pid = PID(Kp,Ki,Kd,0,output_limits=Limits)
+        self.imu = IMU()
 
     def __del__(self):
         self.stop()
     def set_set_point(self,point):
         self.pid.setpoint = point
     def run(self):
-        data= self.encoder.get_data()
-        if(data is None):
-            return
-        encoder1,encoder2 =data
-        val = self.pid(encoder1)
+
+        angle = self.imu.simple_pitch_from_g_fusion
+        val = self.pid(angle)
+        print(val)
         if(val is not None):
-            self.motor.speedControlM0(constant+val)
-            self.motor.speedControlM1(constant-val)
+            self.motor.set_speed_M0(constant+val)
+            self.motor.set_speed_M1(-constant+val)
         else:
             print("PID fail?")
+        return val
     
     def stop(self):
         self.motor.stopM0()
@@ -43,3 +45,6 @@ def main():
     controller = Stable_Contoller(ser)
     while True:
         controller.run()
+
+if __name__ == "__main__":
+    main()

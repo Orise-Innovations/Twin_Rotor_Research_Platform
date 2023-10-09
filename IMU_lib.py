@@ -1,5 +1,6 @@
 import board
 import adafruit_icm20x
+import math
 
 
 class IMU:
@@ -14,6 +15,15 @@ class IMU:
     @property
     def gyro(self):
         return self._icm.gyro
+
+    @property
+    def simple_pitch_from_g_fusion(self):
+        '''
+        simply finding the pitch using atan2(x,z)
+        '''
+        x,y,z = self.acceleration
+        return math.atan2(x,z)
+        
         
 
         
@@ -22,7 +32,8 @@ def two_decimal_places(values):
 def main():
     imu = IMU()
     while True:
-        print(two_decimal_places(imu.acceleration),two_decimal_places(imu.gyro))
+        print(imu.simple_pitch_from_g_fusion)
+        # print(two_decimal_places(imu.acceleration),two_decimal_places(imu.gyro))
 
 
 if __name__ == "__main__":

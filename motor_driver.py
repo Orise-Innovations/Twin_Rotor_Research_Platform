@@ -59,10 +59,10 @@ class Motor:
         byte3 = (speed & 0xFF0000) >> 16
         byte4 = (speed & 0xFF000000) >> 24
         
-        print(byte1)
-        print(byte2)
-        print(byte3)
-        print(byte4)
+        # print(byte1)
+        # print(byte2)
+        # print(byte3)
+        # print(byte4)
 
         msg = can.Message(arbitration_id = self.motor0ID, data = [self.speedControlCommandID, 0, 0, 0, byte1, byte2, byte3, byte4], is_extended_id=False)
         self.can0.send(msg)
@@ -74,10 +74,10 @@ class Motor:
         byte3 = (speed & 0xFF0000) >> 16
         byte4 = (speed & 0xFF000000) >> 24
         
-        print(byte1)
-        print(byte2)
-        print(byte3)
-        print(byte4)
+        # print(byte1)
+        # print(byte2)
+        # print(byte3)
+        # print(byte4)
 
         msg = can.Message(arbitration_id = self.motor1ID, data = [self.speedControlCommandID, 0, 0, 0, byte1, byte2, byte3, byte4], is_extended_id=False)
         self.can0.send(msg)
