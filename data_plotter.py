@@ -23,7 +23,7 @@ class Graph_Window(QtWidgets.QWidget):
     def add_time_graph(self,buffer_data_func:Buffer_Data_Func):
         self.plot_widgets.append(pg.PlotWidget())
         self.plots.append(self.plot_widgets[-1].plot())
-        self.plot_widgets[-1].getPlotItem().showGrid(True,True)
+        self.plot_widgets[-1].getPlotItem().showGrid(True,True)#type:ignore
         self.update_functions.append(buffer_data_func)
         self.main_layout.addWidget(self.plot_widgets[-1])
 
