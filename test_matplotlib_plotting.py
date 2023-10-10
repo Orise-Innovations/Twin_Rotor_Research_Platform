@@ -17,7 +17,7 @@ m = Matplotlib_Plotter(data_buffers,(2,2))
 def plot_angle(buffer_data:Data_Buffers)->Iterable[float]:
     acc_x = buffer_data.acc_x.numpy_data
     acc_y = buffer_data.acc_y.numpy_data
-    return np.arctan(acc_x,acc_y)
+    return np.arctan(acc_x,acc_y)#type:ignore
     
 m.add_time_plot(lambda x : x.encoder1.data,"encoder1",0,0)
 m.add_time_plot(plot_angle,"acc_pitch",0,1)
