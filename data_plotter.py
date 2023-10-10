@@ -70,7 +70,6 @@ def run_app(data_buffers:Data_Buffers):
 class Create_Gui:
 
     def __init__(self,data_buffers:Data_Buffers):
-        self.w = None
         self.data_buffers = data_buffers
         self.t = threading.Thread(target=self.__run)
         self.time_graphs = []
@@ -78,17 +77,23 @@ class Create_Gui:
         self.t.start()
     def add_time_graph(self,buffer_data_func:Buffer_Data_Func,title:str):
         self.time_graphs.append((buffer_data_func,title))
+    
+    @property
+    def active(self):
+        return self.t.is_alive()
 
     def __del__(self):
+        print("Joining")
         self.t.join()
 
     def __run(self):
-        self.app = QtWidgets.QApplication(sys.argv)
-        self.w = Main_Window(50,self.data_buffers)
+        app = QtWidgets.QApplication(sys.argv)
+        w = Main_Window(50,self.data_buffers)
         for graph,title in self.time_graphs:
-            self.w.graph_window.add_time_graph(graph,title)
-        self.w.show()
-        self.app.exec_()
+            w.graph_window.add_time_graph(graph,title)
+        w.show()
+        app.exec()
+        w.update_timer.stop()
     
     
 

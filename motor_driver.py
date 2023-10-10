@@ -36,6 +36,7 @@ class Motor:
         pass
 
     def __del__(self):
+        print("Shutting down motors")
         self._speedControlM1(0)
         self._speedControlM0(0)
         self.can0.shutdown()
