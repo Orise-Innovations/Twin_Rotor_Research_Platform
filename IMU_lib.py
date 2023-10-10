@@ -20,8 +20,11 @@ class IMU:
         return self._gyro
 
     def update(self):
-        self._acceleration = self._icm.acceleration
-        self._gyro = self._icm.gyro
+        try:
+            self._acceleration = self._icm.acceleration
+            self._gyro = self._icm.gyro
+        except Exception:
+            pass
 
     @property
     def simple_pitch_from_g_fusion(self):

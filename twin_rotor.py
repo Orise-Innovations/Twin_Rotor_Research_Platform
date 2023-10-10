@@ -23,6 +23,8 @@ class Twin_Rotor:
             self.timer_function = timer_function
 
         self._time:float = self.timer_function()
+        self.encoder._get_data()
+        self.encoder.set_current_to_zero_point()
 
     def __del__(self):
         self.ser.close()
