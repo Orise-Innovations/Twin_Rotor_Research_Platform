@@ -9,8 +9,8 @@ def main():
 
     data_buffers = Data_Buffers(1000)
     gui_application = Create_Gui(data_buffers)
-    gui_application.add_time_graph(lambda x: x.encoder1.data)
-    gui_application.add_time_graph(lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data))#type:ignore
+    gui_application.add_time_graph(lambda x: x.encoder1.data,"encoder1")
+    gui_application.add_time_graph(lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data),"pitch")#type:ignore
     gui_application.start()
     
     while True:

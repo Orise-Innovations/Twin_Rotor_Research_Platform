@@ -20,10 +20,11 @@ class Graph_Window(QtWidgets.QWidget):
         self.plots:List[pg.PlotDataItem] = []
         self.update_functions:List[Buffer_Data_Func] = []
 
-    def add_time_graph(self,buffer_data_func:Buffer_Data_Func):
+    def add_time_graph(self,buffer_data_func:Buffer_Data_Func,title:str):
         self.plot_widgets.append(pg.PlotWidget())
         self.plots.append(self.plot_widgets[-1].plot())
         self.plot_widgets[-1].getPlotItem().showGrid(True,True)#type:ignore
+        self.plot_widgets[-1].getPlotItem().setTitle(title) #type:ignore
         self.update_functions.append(buffer_data_func)
         self.main_layout.addWidget(self.plot_widgets[-1])
 
@@ -75,8 +76,8 @@ class Create_Gui:
         self.time_graphs = []
     def start(self):
         self.t.start()
-    def add_time_graph(self,buffer_data_func:Buffer_Data_Func):
-        self.time_graphs.append(buffer_data_func)
+    def add_time_graph(self,buffer_data_func:Buffer_Data_Func,title:str):
+        self.time_graphs.append((buffer_data_func,title))
 
     def __del__(self):
         self.t.join()
@@ -84,8 +85,8 @@ class Create_Gui:
     def __run(self):
         self.app = QtWidgets.QApplication(sys.argv)
         self.w = Main_Window(50,self.data_buffers)
-        for graph in self.time_graphs:
-            self.w.graph_window.add_time_graph(graph)
+        for graph,title in self.time_graphs:
+            self.w.graph_window.add_time_graph(graph,title)
         self.w.show()
         self.app.exec_()
     
