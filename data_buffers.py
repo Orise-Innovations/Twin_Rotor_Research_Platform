@@ -50,6 +50,9 @@ class Data_Buffers:
         self.gyro_z.push((twin_rotor.imu.gyro[2]))
         self.lock.release()
 
+    def get_custom_buffer(self):
+        return Custom_Buffers(self)
+
 class Custom_Buffers(Buffer):
     def __init__(self,data_buffers:Data_Buffers):
         super().__init__(data_buffers._size)
