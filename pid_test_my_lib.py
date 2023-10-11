@@ -17,7 +17,7 @@ constant =  MAX_SPEED//2
 class Stable_Contoller:
     def __init__(self):
         self.twin_rotor = Twin_Rotor()
-        self.pid = PID(Kp,Ki,Kd,Limits,derivative_filter_omega=5,derivative_on_measurement=True)
+        self.pid = PID(Kp,Ki,Kd,Limits,derivative_filter_omega=5,derivative_on_measurement=False)
         self.angle = 0
         self.beta = 0.5
 

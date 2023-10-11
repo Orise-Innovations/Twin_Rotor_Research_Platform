@@ -12,6 +12,19 @@ class Colors:
     ORISE_ORANGE  = (242,107,36)
     WHITE = (255,255,255)
 
+class READING_NAMES:
+    ENCODER1 = "encoder1"
+    ACC_X  = "acc_x"
+    ACC_Y ="acc_y"
+    ACC_Z = "acc_z"
+    GYRO_X = "gyro_x"
+    GYRO_Y = "gyro_y"
+    GYRO_Z = "gyro_z"
+    MAG_X = "mag_x"
+    MAG_Y = "mag_y"
+    MAG_Z = "mag_z"
+
+
 Buffer_Data_Func = Callable[[Data_Buffers],Iterable[float]]
 class Graph_Window(QtWidgets.QWidget):
     def __init__(self):
@@ -40,6 +53,7 @@ class Graph_Window(QtWidgets.QWidget):
         self.main_layout.addWidget(self.plot_widgets[-1])
 
         return self.plot_widgets[-1],self.plots[-1]
+
 
     def update(self,data_buffer:Data_Buffers):
         for plot,update_function in zip(self.plots,self.update_functions):
@@ -95,6 +109,14 @@ class Create_Gui:
         self.t.start()
     def add_time_graph(self,title:str,buffer_data_func:Buffer_Data_Func,color=Colors.ORISE_ORANGE,name=None):
         self.time_graphs[title].append((buffer_data_func,color,name))
+
+    def add_twin_rotor_data(self,title:str,reading_name:str,color=Colors.ORISE_ORANGE,name=None):
+        if(not hasattr(self.data_buffers,reading_name)):
+            print("Reading name is invalid -- ignoring the plot")
+            return
+        self.add_time_graph(title,lambda x: getattr(x,reading_name).data,color,name)
+
+
     
     @property
     def active(self):

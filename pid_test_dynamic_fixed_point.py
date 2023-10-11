@@ -2,7 +2,7 @@ from pid_lib import PID
 from twin_rotor import Twin_Rotor
 from time import sleep
 from data_buffers import Data_Buffers,Custom_Buffers
-from data_plotter import Create_Gui,Colors
+from data_plotter import Create_Gui,READING_NAMES
 from data_logger import CSV_Logger
 import numpy as np
 import math
@@ -52,7 +52,10 @@ def main():
     custom_buffers = Custom_Buffers(data_buffers)
     gui_application = Create_Gui(data_buffers)
     gui_application.add_time_graph("encoder1",lambda x: x.encoder1.data)
-    gui_application.add_time_graph("pitch",lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data),(0,255,255),"actual")
+    gui_application.add_twin_rotor_data("mag",READING_NAMES.MAG_X,(255,0,0),"mag_x")
+    gui_application.add_twin_rotor_data("mag",READING_NAMES.MAG_Y,(0,255,0),"mag_y")
+    gui_application.add_twin_rotor_data("mag",READING_NAMES.MAG_Z,(0,0,255),"mag_z")
+    gui_application.add_time_graph("pitch",lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data),(0,255,255),"actual")#type:ignore
     gui_application.add_time_graph("pitch",lambda x: custom_buffers.data ,(0,255,0),"set_point")
     gui_application.start()
     t = time()

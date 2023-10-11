@@ -9,11 +9,16 @@ class IMU:
         self._icm = adafruit_icm20x.ICM20948(self._i2c)
         self._acceleration = self._icm.acceleration
         self._gyro = self._icm.gyro
+        self._mag = self._icm.magnetic
 
 
     @property
     def acceleration(self):
         return self._acceleration
+    
+    @property
+    def magnetic(self):
+        return self._mag
     
     @property
     def gyro(self):
@@ -23,6 +28,7 @@ class IMU:
         try:
             self._acceleration = self._icm.acceleration
             self._gyro = self._icm.gyro
+            self._mag = self._icm.magnetic
         except Exception:
             pass
 
