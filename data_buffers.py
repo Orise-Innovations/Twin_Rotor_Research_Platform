@@ -2,6 +2,9 @@ from collections import deque
 from twin_rotor import Twin_Rotor
 import numpy as np
 import threading
+
+
+
 class Buffer:
     def __init__(self,size:int):
         self._buffer = deque((0.0 for _ in range(size)))
@@ -19,8 +22,10 @@ class Buffer:
     def numpy_data(self):
         return np.array(self._buffer)
 
+
 class Data_Buffers:
     def __init__(self,size:int):
+        self._size = size
         self.time = Buffer(size)
         self.encoder1 = Buffer(size)
         self.encoder2 = Buffer(size)
@@ -43,4 +48,14 @@ class Data_Buffers:
         self.gyro_x.push(twin_rotor.imu.gyro[0])
         self.gyro_y.push(twin_rotor.imu.gyro[1])
         self.gyro_z.push((twin_rotor.imu.gyro[2]))
+        self.lock.release()
+
+class Custom_Buffers(Buffer):
+    def __init__(self,data_buffers:Data_Buffers):
+        super().__init__(data_buffers._size)
+        self.lock = threading.Lock()
+
+    def push(self,val):
+        self.lock.acquire()
+        super().push(val)
         self.lock.release()
