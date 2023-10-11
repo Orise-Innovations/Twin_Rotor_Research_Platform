@@ -28,6 +28,7 @@ class Encoder:
         self._zero_point_2 = zero_point2
 
     def set_current_to_zero_point(self):
+        self.update()
         self._zero_point_1,self.zero_point_2 = self._encoder_1,self._encoder_2
     def _get_data(self)->Optional[Tuple[int,int]]:
         '''

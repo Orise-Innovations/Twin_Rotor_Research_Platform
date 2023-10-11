@@ -7,7 +7,8 @@ from data_logger import CSV_Logger
 import numpy as np
 from math import radians
 
-ORISE_ORANGE  = (251,170,29)
+ORISE_YELLOW  = (251,170,29)
+ORISE_ORANGE  = (242,107,36)
 
 MAX_SPEED = 600*6
 Kp = 0.342
@@ -48,7 +49,7 @@ def main():
     controller.set_set_point(radians(30))
     data_buffers = Data_Buffers(1000)
     gui_application = Create_Gui(data_buffers)
-    gui_application.add_time_graph(lambda x: x.encoder1.data,"encoder1",color=(0,255,0))
+    gui_application.add_time_graph(lambda x: x.encoder1.data,"encoder1",color=ORISE_YELLOW)
     gui_application.add_time_graph(lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data),"pitch",ORISE_ORANGE)#type:ignore
     gui_application.start()
     while True:

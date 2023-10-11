@@ -43,6 +43,7 @@ class Main_Window(QtWidgets.QMainWindow):
         self.setCentralWidget(self.main_widget)
         self.main_layout = QtWidgets.QVBoxLayout()
         self.main_widget.setLayout(self.main_layout)
+        self.setWindowTitle("Orise Twin Rotor")
 
         self.graph_window = Graph_Window()
         self.update_timer = QtCore.QTimer()
