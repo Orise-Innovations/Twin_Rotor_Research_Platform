@@ -52,7 +52,8 @@ def main():
     custom_buffers = Custom_Buffers(data_buffers)
     gui_application = Create_Gui(data_buffers)
     gui_application.add_time_graph("encoder1",lambda x: x.encoder1.data)
-    gui_application.add_time_graph("pitch",lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data),lambda x: custom_buffers.data,colors=((255,0,0),(0,255,255)))#type:ignore
+    gui_application.add_time_graph("pitch",lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data),(0,255,255),"actual")
+    gui_application.add_time_graph("pitch",lambda x: custom_buffers.data ,(0,255,0),"set_point")
     gui_application.start()
     t = time()
     while True:

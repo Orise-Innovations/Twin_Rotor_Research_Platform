@@ -4,11 +4,13 @@ import sys
 from data_buffers import Data_Buffers
 import numpy as np
 import threading
+from collections import defaultdict
 from typing import Dict,Iterable,List,Callable
 
 class Colors:
     ORISE_YELLOW  = (251,170,29)
     ORISE_ORANGE  = (242,107,36)
+    WHITE = (255,255,255)
 
 Buffer_Data_Func = Callable[[Data_Buffers],Iterable[float]]
 class Graph_Window(QtWidgets.QWidget):
@@ -23,17 +25,17 @@ class Graph_Window(QtWidgets.QWidget):
         self.plots:List[pg.PlotDataItem] = []
         self.update_functions:List[Buffer_Data_Func] = []
 
-    def add_time_graph(self,title:str,*buffer_data_func:Buffer_Data_Func,colors=None):
+    def add_time_graph(self,title:str,*buffer_data_func:Buffer_Data_Func,colors,names):
         # print(f"{buffer_data_func=}")
         self.plot_widgets.append(pg.PlotWidget())
         self.plot_widgets[-1].getPlotItem().showGrid(True,True)#type:ignore
-        self.plot_widgets[-1].getPlotItem().setTitle(title) #type:ignore
-        if(colors is None):
-            colors = tuple(Colors.ORISE_ORANGE for _ in range(len(buffer_data_func)))
-        assert(len(buffer_data_func) == len(colors))
-        for func,color in zip(buffer_data_func,colors):
+        self.plot_widgets[-1].getPlotItem().setTitle(title,color=Colors.WHITE) #type:ignore
+        legend = self.plot_widgets[-1].getPlotItem().addLegend(labelTextColor=Colors.WHITE) #type:ignore
+        for func,color,name in zip(buffer_data_func,colors,names):
             # print(f"{func=}")
             self.plots.append(self.plot_widgets[-1].plot(pen=pg.mkPen(color=color)))
+            if(name is not None):
+                legend.addItem(self.plots[-1],name)
             self.update_functions.append(func)
         self.main_layout.addWidget(self.plot_widgets[-1])
 
@@ -88,11 +90,11 @@ class Create_Gui:
     def __init__(self,data_buffers:Data_Buffers):
         self.data_buffers = data_buffers
         self.t = threading.Thread(target=self.__run)
-        self.time_graphs = []
+        self.time_graphs = defaultdict(lambda : [])
     def start(self):
         self.t.start()
-    def add_time_graph(self,title:str,*buffer_data_func:Buffer_Data_Func,colors=None):
-        self.time_graphs.append((buffer_data_func,title,colors))
+    def add_time_graph(self,title:str,buffer_data_func:Buffer_Data_Func,color=Colors.ORISE_ORANGE,name=None):
+        self.time_graphs[title].append((buffer_data_func,color,name))
     
     @property
     def active(self):
@@ -105,9 +107,10 @@ class Create_Gui:
     def __run(self):
         app = QtWidgets.QApplication(sys.argv)
         w = Main_Window(50,self.data_buffers)
-        for graphs,title,colors in self.time_graphs:
+        for title in self.time_graphs:
             # print(f"{graphs=}")
-            w.graph_window.add_time_graph(title,*graphs,colors=colors)
+            graphs,colors,names = tuple(a[0] for a in self.time_graphs[title]),tuple(a[1] for a in self.time_graphs[title]),tuple(a[2] for a in self.time_graphs[title])
+            w.graph_window.add_time_graph(title,*graphs,colors=colors,names=names)
         w.show()
         app.exec()
         w.update_timer.stop()

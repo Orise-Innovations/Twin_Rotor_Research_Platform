@@ -47,7 +47,7 @@ def main():
     controller.set_set_point(radians(30))
     data_buffers = Data_Buffers(1000)
     gui_application = Create_Gui(data_buffers)
-    gui_application.add_time_graph(lambda x: x.encoder1.data,"encoder1")
+    gui_application.add_time_graph("encoder1",lambda x: x.encoder1.data)
     gui_application.add_time_graph(lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data),"pitch",Colors.ORISE_ORANGE)#type:ignore
     gui_application.start()
     while True:
