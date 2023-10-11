@@ -12,6 +12,13 @@ MAX_SPEED = 600*6
 Kp = 0.342
 Kd = 0.222
 Ki = 0.132
+
+
+## NEw VALUES FOR DYNAMIC SYSTEM######
+Ki = 0.6
+Kd = 0.5
+######################################
+
 Limits = (-MAX_SPEED//2,MAX_SPEED//2)
 constant =  MAX_SPEED//2
 class Stable_Contoller:
@@ -38,9 +45,13 @@ class Stable_Contoller:
     
     
 
-def dynamic_set_point(t):
+def dynamic_set_point_sin(t):
     f = 0.1
     return math.radians(30)*math.sin(2*math.pi*f*t) 
+
+def dynamic_set_point_square(t):
+    f = 0.05
+    return (t % (1/f) > (1/f/2))*math.radians(30)
 
 
 def main():
@@ -63,7 +74,7 @@ def main():
         data_buffers.update_buffers(controller.twin_rotor)
         controller.run()
         data_logger.log(controller.twin_rotor)
-        point = dynamic_set_point(time()-t)
+        point = dynamic_set_point_sin(time()-t)
         custom_buffers.push(point)
         controller.set_set_point(point)
         sleep(0.001)

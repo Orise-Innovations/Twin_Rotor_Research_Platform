@@ -5,7 +5,7 @@ from data_buffers import Data_Buffers
 import numpy as np
 import threading
 from collections import defaultdict
-from typing import Dict,Iterable,List,Callable
+from typing import Dict,Iterable,List,Callable,Optional
 
 class Colors:
     ORISE_YELLOW  = (251,170,29)
@@ -107,10 +107,10 @@ class Create_Gui:
         self.time_graphs = defaultdict(lambda : [])
     def start(self):
         self.t.start()
-    def add_time_graph(self,title:str,buffer_data_func:Buffer_Data_Func,color=Colors.ORISE_YELLOW,name=None):
+    def add_time_graph(self,title:str,buffer_data_func:Buffer_Data_Func,color=Colors.ORISE_YELLOW,name:Optional[str]=None):
         self.time_graphs[title].append((buffer_data_func,color,name))
 
-    def add_twin_rotor_data(self,title:str,reading_name:str,color=Colors.ORISE_YELLOW,name=None):
+    def add_twin_rotor_data(self,title:str,reading_name:str,color=Colors.ORISE_YELLOW,name:Optional[str]=None):
         if(not hasattr(self.data_buffers,reading_name)):
             print("Reading name is invalid -- ignoring the plot")
             return
