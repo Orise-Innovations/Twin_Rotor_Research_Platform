@@ -7,6 +7,8 @@ from data_logger import CSV_Logger
 import numpy as np
 from math import radians
 
+ORISE_ORANGE  = (251,170,29)
+
 MAX_SPEED = 600*6
 Kp = 0.342
 Kd = 0.222
@@ -32,7 +34,6 @@ class Stable_Contoller:
         # self.angle = angle*(self.beta)+self.angle*(1-self.beta)
         val = MAX_SPEED/2*self.pid(angle,time_delta)
 
-        print(val)
         self.twin_rotor.motors.set_speed(constant+val,-constant+val)
         return val
     
@@ -44,11 +45,11 @@ def main():
     FILE_PATH =  "logging_test/csv_data_logger_57.csv"
     data_logger = CSV_Logger(FILE_PATH)
     controller = Stable_Contoller()
-    controller.set_set_point(radians(-60))
+    controller.set_set_point(radians(30))
     data_buffers = Data_Buffers(1000)
     gui_application = Create_Gui(data_buffers)
-    gui_application.add_time_graph(lambda x: x.encoder1.data,"encoder1")
-    gui_application.add_time_graph(lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data),"pitch")#type:ignore
+    gui_application.add_time_graph(lambda x: x.encoder1.data,"encoder1",color=(0,255,0))
+    gui_application.add_time_graph(lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data),"pitch",ORISE_ORANGE)#type:ignore
     gui_application.start()
     while True:
         data_buffers.update_buffers(controller.twin_rotor)
