@@ -74,7 +74,7 @@ def main():
         data_buffers.update_buffers(controller.twin_rotor)
         controller.run()
         data_logger.log(controller.twin_rotor)
-        point = dynamic_set_point_sin(time()-t)
+        point = dynamic_set_point_square(time()-t)
         custom_buffers.push(point)
         controller.set_set_point(point)
         sleep(0.001)
