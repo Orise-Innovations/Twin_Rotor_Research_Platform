@@ -48,7 +48,7 @@ def main():
     data_buffers = Data_Buffers(1000)
     gui_application = Create_Gui(data_buffers)
     gui_application.add_time_graph("encoder1",lambda x: x.encoder1.data)
-    gui_application.add_time_graph(lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data),"pitch",Colors.ORISE_ORANGE)#type:ignore
+    gui_application.add_time_graph("pitch",lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data),color=Colors.ORISE_ORANGE)#type:ignore
     gui_application.start()
     while True:
         data_buffers.update_buffers(controller.twin_rotor)
