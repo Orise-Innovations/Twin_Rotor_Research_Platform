@@ -107,10 +107,10 @@ class Create_Gui:
         self.time_graphs = defaultdict(lambda : [])
     def start(self):
         self.t.start()
-    def add_time_graph(self,title:str,buffer_data_func:Buffer_Data_Func,color=Colors.ORISE_ORANGE,name=None):
+    def add_time_graph(self,title:str,buffer_data_func:Buffer_Data_Func,color=Colors.ORISE_YELLOW,name=None):
         self.time_graphs[title].append((buffer_data_func,color,name))
 
-    def add_twin_rotor_data(self,title:str,reading_name:str,color=Colors.ORISE_ORANGE,name=None):
+    def add_twin_rotor_data(self,title:str,reading_name:str,color=Colors.ORISE_YELLOW,name=None):
         if(not hasattr(self.data_buffers,reading_name)):
             print("Reading name is invalid -- ignoring the plot")
             return

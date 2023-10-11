@@ -49,7 +49,7 @@ def main():
     controller = Stable_Contoller()
     controller.set_set_point(0)
     data_buffers = Data_Buffers(1000)
-    custom_buffers = Custom_Buffers(data_buffers)
+    custom_buffers = data_buffers.get_custom_buffer()
     gui_application = Create_Gui(data_buffers)
     gui_application.add_time_graph("encoder1",lambda x: x.encoder1.data)
     gui_application.add_twin_rotor_data("mag",READING_NAMES.MAG_X,(255,0,0),"mag_x")
