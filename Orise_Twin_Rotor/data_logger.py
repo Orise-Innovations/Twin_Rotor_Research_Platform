@@ -15,6 +15,9 @@ class Logger:
     
 
 class Print_Logger(Logger):
+    '''
+    Simple Logger to print to standard out
+    '''
     def write(self,str:str):
         print(str,end='')
 
@@ -64,7 +67,14 @@ class Simple_Logger(Twin_Rotor_Logger):
 
 
 class CSV_Logger(Twin_Rotor_Logger):
-    def __init__(self,file_path,append=False):
+    '''
+    Logs data as a csv file
+    '''
+    def __init__(self,file_path:str,append=False):
+        '''
+        file_path:str : path to the csv file if a file is not found it will be created
+        append:bool   : whether to append to a file or overwrite the existing file if True it will append to the file default is False
+        '''
         mode = 'w' if append else 'a'
         self._file = open(file_path,'w')
         self._writer = csv.writer(self._file)

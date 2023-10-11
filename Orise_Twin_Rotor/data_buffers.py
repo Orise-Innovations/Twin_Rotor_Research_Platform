@@ -11,11 +11,17 @@ class Buffer:
         self._size = size
     
     def push(self,val:float):
+        '''
+        push new values to the buffer
+        '''
         self._buffer.append(val)
         self._buffer.popleft()
 
     @property
     def data(self):
+        '''
+        get data as a deque of floats
+        '''
         return self._buffer
 
     @property
@@ -25,6 +31,11 @@ class Buffer:
 
 class Data_Buffers:
     def __init__(self,size:int):
+        '''
+        create data buffers to store the twin rotor data this will be useful when plotting the data
+        size is how much data the buffere stores, the data is maintaned in a queue of size 'size' as data comes in earliest data
+        is dropped (FIFO property)
+        '''
         self._size = size
         self.time = Buffer(size)
         self.encoder1 = Buffer(size)
@@ -62,7 +73,7 @@ class Custom_Buffer(Buffer):
         super().__init__(data_buffers._size)
         self.lock = threading.Lock()
 
-    def push(self,val):
+    def push(self,val:float):
         self.lock.acquire()
         super().push(val)
         self.lock.release()
