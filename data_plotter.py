@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore,QtGui
 import pyqtgraph as pg
 import sys
 from data_buffers import Data_Buffers
@@ -6,6 +6,9 @@ import numpy as np
 import threading
 from typing import Dict,Iterable,List,Callable
 
+class Colors:
+    ORISE_YELLOW  = (251,170,29)
+    ORISE_ORANGE  = (242,107,36)
 
 Buffer_Data_Func = Callable[[Data_Buffers],Iterable[float]]
 class Graph_Window(QtWidgets.QWidget):
@@ -20,7 +23,7 @@ class Graph_Window(QtWidgets.QWidget):
         self.plots:List[pg.PlotDataItem] = []
         self.update_functions:List[Buffer_Data_Func] = []
 
-    def add_time_graph(self,buffer_data_func:Buffer_Data_Func,title:str,color=(255,255,255)):
+    def add_time_graph(self,buffer_data_func:Buffer_Data_Func,title:str,color=Colors.ORISE_YELLOW):
         self.plot_widgets.append(pg.PlotWidget())
         self.plots.append(self.plot_widgets[-1].plot(pen=pg.mkPen(color=color)))
         self.plot_widgets[-1].getPlotItem().showGrid(True,True)#type:ignore
@@ -44,6 +47,12 @@ class Main_Window(QtWidgets.QMainWindow):
         self.main_layout = QtWidgets.QVBoxLayout()
         self.main_widget.setLayout(self.main_layout)
         self.setWindowTitle("Orise Twin Rotor")
+
+        self.label = QtWidgets.QLabel()
+        self.pixmap = QtGui.QPixmap("assets/orise_slider.png")
+        self.pixmap = self.pixmap.scaled(self.pixmap.width()//4,self.pixmap.height()//4)
+        self.label.setPixmap(self.pixmap)
+        self.main_layout.addWidget(self.label)
 
         self.graph_window = Graph_Window()
         self.update_timer = QtCore.QTimer()
@@ -76,7 +85,7 @@ class Create_Gui:
         self.time_graphs = []
     def start(self):
         self.t.start()
-    def add_time_graph(self,buffer_data_func:Buffer_Data_Func,title:str,color=(255,255,255)):
+    def add_time_graph(self,buffer_data_func:Buffer_Data_Func,title:str,color=Colors.ORISE_YELLOW):
         self.time_graphs.append((buffer_data_func,title,color))
     
     @property

@@ -2,13 +2,11 @@ from pid_lib import PID
 from twin_rotor import Twin_Rotor
 from time import sleep
 from data_buffers import Data_Buffers
-from data_plotter import Create_Gui
+from data_plotter import Create_Gui,Colors
 from data_logger import CSV_Logger
 import numpy as np
 from math import radians
 
-ORISE_YELLOW  = (251,170,29)
-ORISE_ORANGE  = (242,107,36)
 
 MAX_SPEED = 600*6
 Kp = 0.342
@@ -19,7 +17,7 @@ constant =  MAX_SPEED//2
 class Stable_Contoller:
     def __init__(self):
         self.twin_rotor = Twin_Rotor()
-        self.pid = PID(Kp,Ki,Kd,Limits,derivative_filter_omega=5)
+        self.pid = PID(Kp,Ki,Kd,Limits,derivative_filter_omega=5,derivative_on_measurement=True)
         self.angle = 0
         self.beta = 0.5
 
@@ -49,8 +47,8 @@ def main():
     controller.set_set_point(radians(30))
     data_buffers = Data_Buffers(1000)
     gui_application = Create_Gui(data_buffers)
-    gui_application.add_time_graph(lambda x: x.encoder1.data,"encoder1",color=ORISE_YELLOW)
-    gui_application.add_time_graph(lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data),"pitch",ORISE_ORANGE)#type:ignore
+    gui_application.add_time_graph(lambda x: x.encoder1.data,"encoder1")
+    gui_application.add_time_graph(lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data),"pitch",Colors.ORISE_ORANGE)#type:ignore
     gui_application.start()
     while True:
         data_buffers.update_buffers(controller.twin_rotor)
