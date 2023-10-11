@@ -1,7 +1,7 @@
 from pid_lib import PID
 from twin_rotor import Twin_Rotor
 from time import sleep
-from data_buffers import Data_Buffers,Custom_Buffers
+from data_buffers import Data_Buffers
 from data_plotter import Create_Gui,READING_NAMES
 from data_logger import CSV_Logger
 import numpy as np
@@ -67,7 +67,7 @@ def main():
     gui_application.add_twin_rotor_data("mag",READING_NAMES.MAG_Y,(0,255,0),"mag_y")
     gui_application.add_twin_rotor_data("mag",READING_NAMES.MAG_Z,(0,0,255),"mag_z")
     gui_application.add_time_graph("pitch",lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data),(0,255,255),"actual")#type:ignore
-    gui_application.add_time_graph("pitch",lambda x: custom_buffers.data ,(0,255,0),"set_point")
+    gui_application.add_custom_buffer_graph("pitch",custom_buffers,(0,255,0),"set_point")
     gui_application.start()
     t = time()
     while True:

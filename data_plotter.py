@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets, QtCore,QtGui
 import pyqtgraph as pg
 import sys
-from data_buffers import Data_Buffers
+from data_buffers import Data_Buffers,Custom_Buffer
 import numpy as np
 import threading
 from collections import defaultdict
@@ -53,6 +53,7 @@ class Graph_Window(QtWidgets.QWidget):
         self.main_layout.addWidget(self.plot_widgets[-1])
 
         return self.plot_widgets[-1],self.plots[-1]
+
 
 
     def update(self,data_buffer:Data_Buffers):
@@ -115,6 +116,9 @@ class Create_Gui:
             print("Reading name is invalid -- ignoring the plot")
             return
         self.add_time_graph(title,lambda x: getattr(x,reading_name).data,color,name)
+
+    def add_custom_buffer_graph(self,title:str,buffer:Custom_Buffer,color=Colors.ORISE_YELLOW,name:Optional[str]=None):
+        self.add_time_graph(title,lambda x: buffer.numpy_data,color,name)
 
 
     

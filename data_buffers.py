@@ -55,9 +55,9 @@ class Data_Buffers:
         self.lock.release()
 
     def get_custom_buffer(self):
-        return Custom_Buffers(self)
+        return Custom_Buffer(self)
 
-class Custom_Buffers(Buffer):
+class Custom_Buffer(Buffer):
     def __init__(self,data_buffers:Data_Buffers):
         super().__init__(data_buffers._size)
         self.lock = threading.Lock()
@@ -72,5 +72,12 @@ class Custom_Buffers(Buffer):
     def data(self):
         self.lock.acquire()
         ret =  self._buffer.copy()
+        self.lock.release()
+        return ret
+
+    @property
+    def numpy_data(self):
+        self.lock.acquire()
+        ret =  np.array(self._buffer)
         self.lock.release()
         return ret
