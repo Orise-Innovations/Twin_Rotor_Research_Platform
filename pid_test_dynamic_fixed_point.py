@@ -40,7 +40,7 @@ class Stable_Contoller:
 
 def dynamic_set_point(t):
     f = 0.1
-    return math.sin(2*math.pi*f*t) 
+    return math.radians(30)*math.sin(2*math.pi*f*t) 
 
 
 def main():
@@ -51,9 +51,8 @@ def main():
     data_buffers = Data_Buffers(1000)
     custom_buffers = Custom_Buffers(data_buffers)
     gui_application = Create_Gui(data_buffers)
-    gui_application.add_time_graph(lambda x: x.encoder1.data,"encoder1")
-    gui_application.add_time_graph(lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data),"pitch",Colors.ORISE_ORANGE)#type:ignore
-    gui_application.add_time_graph(lambda x: custom_buffers.data,"set_point",(255,0,0))
+    gui_application.add_time_graph("encoder1",lambda x: x.encoder1.data)
+    gui_application.add_time_graph("pitch",lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data),lambda x: custom_buffers.data,colors=((255,0,0),(0,255,255)))#type:ignore
     gui_application.start()
     t = time()
     while True:

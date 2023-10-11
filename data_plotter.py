@@ -23,12 +23,18 @@ class Graph_Window(QtWidgets.QWidget):
         self.plots:List[pg.PlotDataItem] = []
         self.update_functions:List[Buffer_Data_Func] = []
 
-    def add_time_graph(self,buffer_data_func:Buffer_Data_Func,title:str,color=Colors.ORISE_YELLOW):
+    def add_time_graph(self,title:str,*buffer_data_func:Buffer_Data_Func,colors=None):
+        # print(f"{buffer_data_func=}")
         self.plot_widgets.append(pg.PlotWidget())
-        self.plots.append(self.plot_widgets[-1].plot(pen=pg.mkPen(color=color)))
         self.plot_widgets[-1].getPlotItem().showGrid(True,True)#type:ignore
         self.plot_widgets[-1].getPlotItem().setTitle(title) #type:ignore
-        self.update_functions.append(buffer_data_func)
+        if(colors is None):
+            colors = tuple(Colors.ORISE_ORANGE for _ in range(len(buffer_data_func)))
+        assert(len(buffer_data_func) == len(colors))
+        for func,color in zip(buffer_data_func,colors):
+            # print(f"{func=}")
+            self.plots.append(self.plot_widgets[-1].plot(pen=pg.mkPen(color=color)))
+            self.update_functions.append(func)
         self.main_layout.addWidget(self.plot_widgets[-1])
 
         return self.plot_widgets[-1],self.plots[-1]
@@ -85,22 +91,23 @@ class Create_Gui:
         self.time_graphs = []
     def start(self):
         self.t.start()
-    def add_time_graph(self,buffer_data_func:Buffer_Data_Func,title:str,color=Colors.ORISE_YELLOW):
-        self.time_graphs.append((buffer_data_func,title,color))
+    def add_time_graph(self,title:str,*buffer_data_func:Buffer_Data_Func,colors=None):
+        self.time_graphs.append((buffer_data_func,title,colors))
     
     @property
     def active(self):
         return self.t.is_alive()
 
     def __del__(self):
-        print("Joining")
+        # print("Joining")
         self.t.join()
 
     def __run(self):
         app = QtWidgets.QApplication(sys.argv)
         w = Main_Window(50,self.data_buffers)
-        for graph,title,color in self.time_graphs:
-            w.graph_window.add_time_graph(graph,title,color)
+        for graphs,title,colors in self.time_graphs:
+            # print(f"{graphs=}")
+            w.graph_window.add_time_graph(title,*graphs,colors=colors)
         w.show()
         app.exec()
         w.update_timer.stop()
