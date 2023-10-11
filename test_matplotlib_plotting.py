@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
-from matplotlib_plotter import Matplotlib_Plotter
+from Orise_Twin_Rotor.matplotlib_plotter import Matplotlib_Plotter
 
-from twin_rotor import Twin_Rotor
-from data_buffers import Data_Buffers
+from Orise_Twin_Rotor import Twin_Rotor
+from Orise_Twin_Rotor import Data_Buffers
 import threading
 from typing import Iterable
 import numpy as np

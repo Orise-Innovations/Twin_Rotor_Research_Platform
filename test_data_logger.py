@@ -1,5 +1,5 @@
-from data_logger import Simple_Logger,File_Logger,CSV_Logger
-from twin_rotor import Twin_Rotor
+from Orise_Twin_Rotor import Simple_Logger,File_Logger,CSV_Logger
+from Orise_Twin_Rotor import Twin_Rotor
 
 
 

@@ -1,5 +1,5 @@
 from collections import deque
-from twin_rotor import Twin_Rotor
+from Orise_Twin_Rotor.twin_rotor import Twin_Rotor
 import numpy as np
 import threading
 

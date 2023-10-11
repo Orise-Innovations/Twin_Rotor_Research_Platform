@@ -1,9 +1,9 @@
-from pid_lib import PID
-from twin_rotor import Twin_Rotor
+from Orise_Twin_Rotor import PID
+from Orise_Twin_Rotor import Twin_Rotor
 from time import sleep
-from data_buffers import Data_Buffers
-from data_plotter import Create_Gui,READING_NAMES
-from data_logger import CSV_Logger
+from Orise_Twin_Rotor import Data_Buffers
+from Orise_Twin_Rotor import Create_Gui,READING_NAMES
+from Orise_Twin_Rotor import CSV_Logger
 import numpy as np
 import math
 from time import time

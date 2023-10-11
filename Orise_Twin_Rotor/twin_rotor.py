@@ -1,9 +1,9 @@
 import serial
 from typing import Callable,Optional
 
-from encoder import Encoder
-from IMU_lib import IMU
-from motor_driver import Motor
+from Orise_Twin_Rotor.encoder import Encoder
+from Orise_Twin_Rotor.IMU_lib import IMU
+from Orise_Twin_Rotor.motor_driver import Motor
 import time
 
 class Twin_Rotor:

@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from data_buffers import Data_Buffers
+from Orise_Twin_Rotor.data_buffers import Data_Buffers
 from typing import Tuple,Callable,Iterable,List,Optional
 Buffer_Data_Func = Callable[[Data_Buffers],Iterable[float]]
 

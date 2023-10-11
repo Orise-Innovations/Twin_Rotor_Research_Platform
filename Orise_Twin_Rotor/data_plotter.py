@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets, QtCore,QtGui
 import pyqtgraph as pg
 import sys
-from data_buffers import Data_Buffers,Custom_Buffer
+from Orise_Twin_Rotor.data_buffers import Data_Buffers,Custom_Buffer
 import numpy as np
 import threading
 from collections import defaultdict

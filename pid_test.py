@@ -1,9 +1,9 @@
 from simple_pid import PID
-from twin_rotor import Twin_Rotor
+from Orise_Twin_Rotor import Twin_Rotor
 from time import sleep
-from data_buffers import Data_Buffers
-from data_plotter import Create_Gui
-from data_logger import CSV_Logger
+from Orise_Twin_Rotor import Data_Buffers
+from Orise_Twin_Rotor import Create_Gui
+from Orise_Twin_Rotor import CSV_Logger
 import numpy as np
 
 MAX_SPEED = 600*6
@@ -29,7 +29,7 @@ class Stable_Contoller:
         self.twin_rotor.update_readings()
         angle = self.twin_rotor.imu.simple_pitch_from_g_fusion
         self.angle = angle*(self.beta)+self.angle*(1-self.beta)
-        val = MAX_SPEED/2*self.pid(self.angle)
+        val = MAX_SPEED/2*self.pid(self.angle)#type:ignore
         print(val)
         if(val is not None):
             self.twin_rotor.motors.set_speed(constant+val,-constant+val)
@@ -47,8 +47,8 @@ def main():
     controller = Stable_Contoller()
     data_buffers = Data_Buffers(1000)
     gui_application = Create_Gui(data_buffers)
-    gui_application.add_time_graph(lambda x: x.encoder1.data,"encoder1")
-    gui_application.add_time_graph(lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data),"pitch")#type:ignore
+    gui_application.add_twin_rotor_data("encoder1","encoder1")
+    gui_application.add_time_graph("pitch",lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data))#type:ignore
     gui_application.start()
     while True:
         data_buffers.update_buffers(controller.twin_rotor)

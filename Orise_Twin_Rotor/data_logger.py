@@ -1,5 +1,5 @@
 from typing import Callable,Optional,Protocol
-from twin_rotor import Twin_Rotor
+from Orise_Twin_Rotor.twin_rotor import Twin_Rotor
 from abc import ABC,abstractmethod
 import csv
 

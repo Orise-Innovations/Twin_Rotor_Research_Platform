@@ -1,7 +1,7 @@
 
-from data_buffers import Data_Buffers
-from twin_rotor import Twin_Rotor
-from data_plotter import Create_Gui
+from Orise_Twin_Rotor import Data_Buffers
+from Orise_Twin_Rotor import Twin_Rotor
+from Orise_Twin_Rotor import Create_Gui
 import numpy as np
 
 def main():
