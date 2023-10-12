@@ -6,13 +6,18 @@ from Orise_Twin_Rotor.IMU_lib import IMU
 from Orise_Twin_Rotor.motor_driver import Motor
 import time
 
+__STANDBY_CODE = b'\x64'
 class Twin_Rotor:
+    __RUNNING_CODE = b'\x65'
+    __ERROR_CODE = b'\x66'
+    __STANDBY_CODE = b'\x64'
     def __init__(self,timer_function:Optional[Callable[[],float]] = None):
         '''
         time_function : function used to time updates if None time.monotonic is used
         '''
         self.ser = serial.Serial('/dev/ttyS0',9600,timeout=1)
         self.encoder = Encoder(self.ser)
+        self.encoder.wait_until_ready()
         self.imu = IMU()
         self.motors = Motor()
 
@@ -25,8 +30,10 @@ class Twin_Rotor:
         self._time:float = self.timer_function()
         self.encoder._get_data()
         self.encoder.set_current_to_zero_point()
+        self.__set_running()
 
     def __del__(self):
+        self.__set_standby()
         self.ser.close()
 
     def default_timer_function(self)->float:
@@ -54,3 +61,17 @@ class Twin_Rotor:
     def __str__(self):
         return f"t={self.time_of_last_update} {self.encoder} {self.imu}"
 
+    def __set_led(self,command):
+        self.ser.write(command)
+
+    def __set_running(self):
+        self.__set_led(self.__RUNNING_CODE)
+
+    def __set_error(self):
+        self.__set_led(self.__ERROR_CODE)
+
+    def __set_standby(self):
+        self.__set_led(self.__STANDBY_CODE)
+
+    def show_error(self):
+        self.__set_error()

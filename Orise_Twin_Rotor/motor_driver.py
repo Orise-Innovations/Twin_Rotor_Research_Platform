@@ -39,6 +39,7 @@ class Motor:
         print("Shutting down motors")
         self._speedControlM1(0)
         self._speedControlM0(0)
+        self.stop()
         self.can0.shutdown()
         os.system('sudo ifconfig can0 down')
 

@@ -186,6 +186,7 @@ class Create_Gui:
     def __del__(self):
         # print("Joining")
         self.t.join()
+        # pass
 
     def __run(self):
         app = QtWidgets.QApplication(sys.argv)
