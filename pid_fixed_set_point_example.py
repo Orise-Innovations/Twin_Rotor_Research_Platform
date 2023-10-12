@@ -41,7 +41,7 @@ class Stable_Contoller:
 
 
 def main():
-    FILE_PATH =  "logging_test/csv_data_logger_57.csv"
+    FILE_PATH =  "logging_test/csv_data_logger.csv"
     data_logger = CSV_Logger(FILE_PATH)
     controller = Stable_Contoller()
     controller.set_set_point(radians(30))
