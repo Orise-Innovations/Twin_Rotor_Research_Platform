@@ -143,7 +143,7 @@ Once you start the GUI you can run it using
 ```python
 gui_application.start()
 ```
-> [!Note]
+> [!IMPORTANT]
 >
 > Make sure this command is executed **after** you have added the plots. Any plots that is added afterwards will not be rendered.
 
@@ -370,7 +370,7 @@ This is also what is done in the lambda function in the example above
 ```python
 gui_application.add_time_graph("pitch",lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data))
 ```
-> [!Caution]
+> [!IMPORTANT]
 >
 >You can also use other variables defined in your program in the function as well. This can be done by capturing them in the function closure or by using a callable class (a class with __call__ defined in it) however when ever you do this you need to make sure this data is thread safe, if you are unsure of what that means it is recommended to use custom data buffers instead.
 
