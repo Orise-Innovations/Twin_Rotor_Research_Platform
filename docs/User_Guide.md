@@ -53,11 +53,11 @@ You can use any ssh client to connect to the system (ssh that comes with your sy
 **Now you are logged into the system via SSH**
 
 ## Running Examples
-1. Navigate to the Twin_Motor_Demo and list the files.
+1. Navigate to the Twin_Rotor_Research_Platform and list the files.
 
 2. Run your chosen example, with python3,
 ```bash
-python3 data_plotter_example.py
+python3 pid_fixed_set_point_example.py
 ```
 3. You will get a gui window plotting the encoder and pitch data. 
 
