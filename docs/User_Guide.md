@@ -1,4 +1,6 @@
 
+# Orise Twin Rotor User Guide
+
 # Using the Data Plotter
 The data plotter is a convenient library provided to quickly plot sensor data and other variables quickly while experimenting with the twin rotor.
 
