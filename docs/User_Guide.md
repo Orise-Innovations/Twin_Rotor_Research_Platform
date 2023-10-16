@@ -1,4 +1,256 @@
 
+# Orise Twin Rotor User Guide
+
+
+# Getting Started
+
+# Turning on the Twin Rotor
+After making sure the system is plugged in, press the power button on the system and the power button will cycle through some colors indicating that the system is booting up. This will take approximately 70 seconds. After it finishes booting up the color will become **yellow** and it will stay at that color indicating that the system is ready for operation. This is the stand-by mode.
+
+## Connecting to the Twin Rotor
+The main way you can connect to the twin rotor is via connecting to it via [SSH](https://en.wikipedia.org/wiki/Secure_Shell).
+### Connecting the Twin Rotor to the Network
+
+### User Credentials
+| | |
+|---|---|
+|Hostname|OriseTRS|
+|Username|pi|
+|default password|raspberry|
+### Connecting Via SSH
+Once you have connected the Twin Rotor to the network, connect your device to the same network so you can SSH into the system. 
+You can use any ssh client to connect to the system (ssh that comes with your system or PuTTY) however **we strongly recommend** using [**MobaXterm**](https://mobaxterm.mobatek.net/documentation.html) the rest of this guide will assume you are using MobaXterm.
+
+1. First install MobaXterm at [https://mobaxterm.mobatek.net/download.html](https://mobaxterm.mobatek.net/download.html) if you haven't already. The free version is more than adequate for any use case with the Twin Rotor System.
+
+2. Now we need to create a session so we can easily connect to the system without having to type in a lot of credentials the following steps indicate how to do that. **You only need to do these steps (steps 3-6) once**
+3. Open up MobaXterm and click the Session Tab.
+
+    <img src="assets/mobaexterm_session.png" width=800 >
+
+5. Now in the newly opened window click on the SSH icon. This will open another window. Enter the hostname as **OriseTRS.local** and check the box containing specifyy username and enter the user name as **pi**. Click on **Advanced SSH settings** and choose **SCP enhanced speed**. Then, click OK. You will get a pop up after this click Accept. (after this you might sometimes get a window saying choose session type in that case choose SSH and click OK.)
+
+    <img src="assets/session_saving_ssh_button.png" width=800 >
+    <img src="assets/new_session_save1.png.png" width=800 >
+    <img src="assets/saving_session_5.png" width=800 >
+    <img src="assets/session_accept_unkown_host.png" width=800 >
+
+6. Once you do the above steps the session information will be saved and you can now connect to the system easily from now on. If you were already connected to the network and the system is connected and ready when you were saving the session, you will be taken directly be taken to the password prompt (see step 8). Otherwise you will get a pop saying the host is not found. This is okay and the session will still be saved, just click OK. Make sure the system is correctly setup before step 7.
+
+7. Now you should see OriseTRS.local (pi) in the user sessions tab in the left (this may be the only entry in your setup). Click on the session to SSH into the system.
+
+    <img src="assets/click_on_session_to_login.png" width=800 >
+
+8. This will open a tab and a password prompt to enter the password prompt. The password is **raspberry** (All in lowe case) enter the password and press enter.(The password wont be shown as you type it make sure you type it correctly and CAP-LOCK is off. If you miss type the password, the system will say Access denied and ask you for the password again.)
+
+    <img src="assets/password_prompt.png" width=800 >
+
+9. Once you enter the password you will be get a pop asking to save the password using a master password click NO for now however if you like to explore this option check out the MobaXterm documentation. Once you do this you will be greeted with a terminal. (It may take a few seconds)
+
+
+    <img src="assets/terminal_page.png" width=800 >
+
+**Now you are logged into the system via SSH**
+
+## Running Examples
+1. Navigate to the Twin_Motor_Demo and list the files.
+
+2. Run your chosen example, with python3,
+```bash
+python3 data_plotter_example.py
+```
+3. You will get a gui window plotting the encoder and pitch data. 
+
+
+    <img src="assets/running_examples.png" width=800 >
+
+4. Close the resulting GUI window to close the program.
+
+## Shutting Down 
+It is **strongly recommended** that you shutdown the raspberry pi before you press the power off button. You can do it with the following command
+```bash
+sudo shutdown -h now
+```
+# Transferring Files
+Connect to the pi using ssh and Click on the file browser tab.
+    <img src="assets/file_browser_tab.png" width=800 >
+    <img src="assets/borwser_tab_opened.png" width=800 >
+
+You can exlpore the file system using this tab. You can also upload and download files by draggin and dropping. (You can also use download and upload buttons)
+
+# Editing Files and Coding on the System
+
+There are several ways to edit files on the system
+1. Terminal Text Editor like nvim (nvim, vim and nano are installed on the system.)
+2. Using MobaXterm.
+    You can edit a file by navigating to the file and right clicking on it if you can select on several options if you select open with you can open it in your default text editor and after making the necessary changes MobaExterm will ask whether to update the changes click YES to that.
+
+3. Using VsCode. (Recommended)
+    1. Open VsCode
+    2. Install the Remote-SSH extension
+
+        <img src="assets/vscode_remote_ssh_1.png" width=800 >
+    3. Click on the Open Remote Window Option and select Connect to Host
+
+        <img src="assets/remote_connection_2.png" width=800 >
+    4. Type in the hostname as pi@OriseTRS.local 
+
+        <img src="assets/entering_hostname_vscode.png" width=800 >
+    5. This will open a new window. It will ask the platform type choose Linux. In the next part click Coninue. Finally enter the password when prompted. 
+
+    6. Select Open Folder and select the folder of your choosing.
+
+        <img src="assets/click_on_open_folder.png" width=800 >
+        <img src="assets/select_the_folder.png" width=800 >
+
+# Controlling the Orise Twin Rotor and Getting Data
+The twin rotor object is controlled by creating a Twin Rotor Object. This can be done as follows.
+```python
+from Orise_Twin_Rotor import Twin_Rotor
+twin_rotor = Twin_Rotor()
+```
+>[!Note]
+>
+>Only one Twin_Rotor object should be constructed in the program
+
+## Controlling Motors
+Controlling the motors can be done using the motors object inside a Twin_Rotor object.
+
+```python
+from Orise_Twin_Rotor import Twin_Rotor
+from time import sleep
+
+twin_rotor = Twin_Rotor()
+while True:
+    twin_rotor.motors.set_speed(100,200) #set motor 1 to 100 rpm and motor 2 to 200 rpm
+    sleep(0.01)
+```
+>[!Warning]
+>
+>If you call set_speed and related functions too fast the can bus will overflow, to prevent this add a delay to the loop (If you are updating sensor readings this will take some time and the sleep won't be necessary)
+
+There are several useful methods defines to control the motors, for the next few examples we assume we have created a twin_rotor object as above.
+
+### Set speed of both motors
+```python
+twin_rotor.motors.set_speed(m0_speed_rpm,m1_speed_rpm)
+```
+
+the provided speeds must be in rpm
+### Set speed of motor0
+```python
+twin_rotor.motors.set_speed_M0(speed_rpm)
+```
+
+### Set speed of motor1
+```python
+twin_rotor.motors.set_speed_M1(speed_rpm)
+```
+
+### Stop motors
+```python
+twin_rotor.motors.stop()
+```
+
+### Stop motor 0
+```python
+twin_rotor.motors.stopM0()
+```
+
+### Stop motor 1
+```python
+twin_rotor.motors.stopM1()
+```
+## Getting Sensor Data
+A typical use case for getting sensor data is as follows,
+```python
+from Orise_Twin_Rotor import Twin_Rotor
+from time import sleep
+
+twin_rotor = Twin_Rotor()
+while True:
+    time_delta = twin_rotor.update_readings() #updating the readings and get the time elapsed since the last update
+    encoder_value = twin_rotor.encoder.encoder1 #retrieve the encoder1 value 
+    mag_x, mag_y, mag_z = twin_rotor.imu.magnetic #retrieve the mag values from the imu
+    gyro_z,gyro_y,gyro_z = twin_rotor.imu.gyro #retrieve the gyro values from the imu
+    acc_x,acc_y,acc_z = twin_rotor.imu.acceleration #retrieve the acceleration values from the imu
+```
+>[!Important]
+>
+> The update_readings() method must be called in the main loop otherwise the sensor readigs will stay the same
+
+for the next few examples we assume we have created a twin_rotor object as above.
+
+# Updating the sensor readings
+
+```python
+twin_rotor.update_readings()->float
+```
+This method is used to update the sensor readings. This is responsible for actually talking to the sensors and retreving the most recent sensor values. Subsequent methods **only return values from the most recent update call** if you fail to call this method in you main lopp your sensor data won't be up to date and will stay the same.
+
+This method returns the time passed since the last update in seconds
+
+# Getting yaw axis encoder value
+```python
+twin_rotor.encoder.encoder1
+```
+yaw encoder value
+
+# Getting acceleration data
+```python
+twin_rotor.imu.acceleration 
+```
+a tuple of floats that contains x,y,z accelerations
+
+# Getting magnetic field readings
+```python
+twin_rotor.imu.magnetic 
+```
+a tuple of floats that contains x,y,z magnetic field readings 
+
+# Getting gyroscope data
+```python
+twin_rotor.imu.gyro 
+```
+a tuple of floats that contains x,y,z magnetic field readings 
+
+# Simple acceleration based pitch 
+```python
+twin_rotor.imu.simple_pitch_from_g_fusion
+```
+This is just a convenience function that gives the pitch using $tan^{-1}{acc_x/acc_z} this gives the ptich angle in radians
+
+>[!Note]
+>
+> This is just a convenience function provided for testing purposes, using better sensor fusion (using gyro, and mag) is recommened for better results.
+
+# Logging Data
+Two simple loggers are provided with the library for convenience these load the sensor readings into a file or to the standard out these are just provided for convenince purposes for logginf custom data such as calculated values and set points making your own loggers using libraries such as [csv](https://docs.python.org/3/library/csv.html) is recommended.
+
+## Using the CSV Logger
+
+```python
+FILE_PATH =  "logging_test/csv_data_logger.csv"
+twin_rotor = Twin_Rotor()
+data_logger = CSV_Logger(FILE_PATH)
+while True:
+    data_logger.log(twin_rotor)
+```
+This logs the data as a csv file
+
+## Using the Simple Logger
+```python
+FILE_PATH =  "logging_test/human_readable.txt"
+twin_rotor = Twin_Rotor()
+data_logger = Simple_Logger(File_Logger(FILE_PATH))
+while True:
+    # print(twin_rotor.update_readings())
+    data_logger.log(twin_rotor)
+```
+This logs the data in the format 
+t=? encoder1=? encoder2=? acc.x=? acc.y=? acc.z=? gyro.x=? gyro.y=? gyro.z=?
+
+
 # Using the Data Plotter
 The data plotter is a convenient library provided to quickly plot sensor data and other variables quickly while experimenting with the twin rotor.
 

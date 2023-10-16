@@ -1,0 +1,21 @@
+Metadata-Version: 2.1
+Name: Orise-Twin-Rotor
+Version: 0.0.1
+Summary: Orise Twin Rotor Library
+Author: Orise
+Project-URL: Homepage, https://github.com/Orise-Innovations/Twin_Rotor_Research_Platform
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+
+# Twin Rotor Library
+
+
+## Requirements
+- Numpy (sudo apt-get install python3-numpy)
+Some other dependancies are pyqt5,scipy and pyqt5-graph but these will be installed if we install pyqt-graph
+sudo apt-get install python3-pyqtgraph

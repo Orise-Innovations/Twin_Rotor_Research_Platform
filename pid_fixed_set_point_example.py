@@ -2,7 +2,7 @@ from Orise_Twin_Rotor import PID
 from Orise_Twin_Rotor import Twin_Rotor
 from time import sleep
 from Orise_Twin_Rotor import Data_Buffers
-from Orise_Twin_Rotor import Create_Gui,Colors
+from Orise_Twin_Rotor import Create_Gui,READING_NAMES
 from Orise_Twin_Rotor import CSV_Logger
 import numpy as np
 from math import radians
@@ -47,14 +47,16 @@ def main():
     controller.set_set_point(radians(30))
     data_buffers = Data_Buffers(1000)
     gui_application = Create_Gui(data_buffers)
-    gui_application.add_time_graph("encoder1",lambda x: x.encoder1.data)
-    gui_application.add_time_graph("pitch",lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data),color=Colors.ORISE_ORANGE)#type:ignore
+    gui_application.add_twin_rotor_data("encoder",READING_NAMES.ENCODER1)
+    gui_application.add_time_graph("pitch",lambda x: np.arctan2(x.acc_x.numpy_data,x.acc_z.numpy_data),color=(255,0,255))#type:ignore
     gui_application.start()
     while True:
         data_buffers.update_buffers(controller.twin_rotor)
         controller.run()
         data_logger.log(controller.twin_rotor)
         sleep(0.001)
+        if not gui_application.active:
+            break
 
 if __name__ == "__main__":
     main()
