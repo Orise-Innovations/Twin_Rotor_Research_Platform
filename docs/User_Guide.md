@@ -6,6 +6,7 @@
 
 # Turning on the Twin Rotor
 After making sure the system is plugged in, press the power button on the system and the power button will cycle through some colors indicating that the system is booting up. This will take approximately 70 seconds. After it finishes booting up the color will become **yellow** and it will stay at that color indicating that the system is ready for operation. This is the stand-by mode.
+
 ## Connecting to the Twin Rotor
 The main way you can connect to the twin rotor is via connecting to it via [SSH](https://en.wikipedia.org/wiki/Secure_Shell).
 ### Connecting the Twin Rotor to the Network
@@ -101,6 +102,65 @@ There are several ways to edit files on the system
 
         <img src="assets/click_on_open_folder.png" width=800 >
         <img src="assets/select_the_folder.png" width=800 >
+
+# Controlling the Orise Twin Rotor and Getting Data
+The twin rotor object is controlled by creating a Twin Rotor Object. This can be done as follows.
+```python
+from Orise_Twin_Rotor import Twin_Rotor
+twin_rotor = Twin_Rotor()
+```
+>[!Note]
+>
+>Only one Twin_Rotor object should be constructed in the program
+
+## Controlling Motors
+Controlling the motors can be done using the motors object inside a Twin_Rotor object.
+
+```python
+from Orise_Twin_Rotor import Twin_Rotor
+from time import sleep
+
+twin_rotor = Twin_Rotor()
+while True:
+    twin_rotor.motors.set_speed(100,200) #set motor 1 to 100 rpm and motor 2 to 200 rpm
+    sleep(0.01)
+```
+There are several usefule methods defines to control the motors, for the next few examples we assume we have created a twin_rotor object as above.
+
+### Set speed of both motors
+```python
+twin_rotor.motors.set_speed(m0_speed_rpm,m1_speed_rpm)
+```
+
+the provided speeds must be in rpm
+### Set speed of motor0
+```python
+twin_rotor.motors.set_speed_M0(speed_rpm)
+```
+
+### Set speed of motor1
+```python
+twin_rotor.motors.set_speed_M1(speed_rpm)
+```
+
+### Stop motors
+```python
+twin_rotor.motors.stop()
+```
+
+### Stop motor 0
+```python
+twin_rotor.motors.stopM0()
+```
+
+### Stop motor 1
+```python
+twin_rotor.motors.stopM1()
+```
+## Getting Sensor Data
+
+# Logging Data
+
 
 # Using the Data Plotter
 The data plotter is a convenient library provided to quickly plot sensor data and other variables quickly while experimenting with the twin rotor.
