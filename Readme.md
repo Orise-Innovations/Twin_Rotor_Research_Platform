@@ -11,3 +11,6 @@ sudo apt-get install python3-pyqtgraph
 >[!Note]
 >
 >For the demo programs the orientation of the propellers rotation axis must be vertical
+
+# Link to the User Guid
+[User Guide Link](docs/User_Guide.md)
