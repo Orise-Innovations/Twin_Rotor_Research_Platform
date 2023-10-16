@@ -1,4 +1,5 @@
-git reset --hard origin/master
+git reset --hard origin/main
+git checkout main
 git pull
 echo "y" | python3 -m  pip uninstall Orise_Twin_Rotor
 cd Library
