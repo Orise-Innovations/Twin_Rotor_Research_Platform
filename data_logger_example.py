@@ -9,7 +9,7 @@ def test_simple_logger():
     twin_rotor = Twin_Rotor()
     data_logger = Simple_Logger(File_Logger(FILE_PATH))
     while True:
-        print(twin_rotor.update_readings())
+        # print(twin_rotor.update_readings())
         data_logger.log(twin_rotor)
     
 
@@ -18,7 +18,7 @@ def test_csv_logger():
     twin_rotor = Twin_Rotor()
     data_logger = CSV_Logger(FILE_PATH)
     while True:
-        print(twin_rotor.update_readings())
+        # print(twin_rotor.update_readings())
         data_logger.log(twin_rotor)
 
 if __name__ == "__main__":

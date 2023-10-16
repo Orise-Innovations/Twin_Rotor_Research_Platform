@@ -15,11 +15,11 @@ class Twin_Rotor:
         '''
         time_function : function used to time updates if None time.monotonic is used
         '''
+        self.motors = Motor()
         self.ser = serial.Serial('/dev/ttyS0',9600,timeout=1)
         self.encoder = Encoder(self.ser)
         self.encoder.wait_until_ready()
         self.imu = IMU()
-        self.motors = Motor()
 
         self._init_time = time.monotonic()
         self.timer_function:Callable[[],float] = self.default_timer_function

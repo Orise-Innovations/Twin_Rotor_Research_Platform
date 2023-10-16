@@ -125,7 +125,11 @@ while True:
     twin_rotor.motors.set_speed(100,200) #set motor 1 to 100 rpm and motor 2 to 200 rpm
     sleep(0.01)
 ```
-There are several usefule methods defines to control the motors, for the next few examples we assume we have created a twin_rotor object as above.
+>[!Warning]
+>
+>If you call set_speed and related functions too fast the can bus will overflow, to prevent this add a delay to the loop (If you are updating sensor readings this will take some time and the sleep won't be necessary)
+
+There are several useful methods defines to control the motors, for the next few examples we assume we have created a twin_rotor object as above.
 
 ### Set speed of both motors
 ```python
@@ -158,8 +162,93 @@ twin_rotor.motors.stopM0()
 twin_rotor.motors.stopM1()
 ```
 ## Getting Sensor Data
+A typical use case for getting sensor data is as follows,
+```python
+from Orise_Twin_Rotor import Twin_Rotor
+from time import sleep
+
+twin_rotor = Twin_Rotor()
+while True:
+    time_delta = twin_rotor.update_readings() #updating the readings and get the time elapsed since the last update
+    encoder_value = twin_rotor.encoder.encoder1 #retrieve the encoder1 value 
+    mag_x, mag_y, mag_z = twin_rotor.imu.magnetic #retrieve the mag values from the imu
+    gyro_z,gyro_y,gyro_z = twin_rotor.imu.gyro #retrieve the gyro values from the imu
+    acc_x,acc_y,acc_z = twin_rotor.imu.acceleration #retrieve the acceleration values from the imu
+```
+>[!Important]
+>
+> The update_readings() method must be called in the main loop otherwise the sensor readigs will stay the same
+
+for the next few examples we assume we have created a twin_rotor object as above.
+
+# Updating the sensor readings
+
+```python
+twin_rotor.update_readings()->float
+```
+This method is used to update the sensor readings. This is responsible for actually talking to the sensors and retreving the most recent sensor values. Subsequent methods **only return values from the most recent update call** if you fail to call this method in you main lopp your sensor data won't be up to date and will stay the same.
+
+This method returns the time passed since the last update in seconds
+
+# Getting yaw axis encoder value
+```python
+twin_rotor.encoder.encoder1
+```
+yaw encoder value
+
+# Getting acceleration data
+```python
+twin_rotor.imu.acceleration 
+```
+a tuple of floats that contains x,y,z accelerations
+
+# Getting magnetic field readings
+```python
+twin_rotor.imu.magnetic 
+```
+a tuple of floats that contains x,y,z magnetic field readings 
+
+# Getting gyroscope data
+```python
+twin_rotor.imu.gyro 
+```
+a tuple of floats that contains x,y,z magnetic field readings 
+
+# Simple acceleration based pitch 
+```python
+twin_rotor.imu.simple_pitch_from_g_fusion
+```
+This is just a convenience function that gives the pitch using $tan^{-1}{acc_x/acc_z} this gives the ptich angle in radians
+
+>[!Note]
+>
+> This is just a convenience function provided for testing purposes, using better sensor fusion (using gyro, and mag) is recommened for better results.
 
 # Logging Data
+Two simple loggers are provided with the library for convenience these load the sensor readings into a file or to the standard out these are just provided for convenince purposes for logginf custom data such as calculated values and set points making your own loggers using libraries such as [csv](https://docs.python.org/3/library/csv.html) is recommended.
+
+## Using the CSV Logger
+
+```python
+FILE_PATH =  "logging_test/csv_data_logger.csv"
+twin_rotor = Twin_Rotor()
+data_logger = CSV_Logger(FILE_PATH)
+while True:
+    data_logger.log(twin_rotor)
+```
+This logs the data as a csv file
+
+## Using the Simple Logger
+```python
+FILE_PATH =  "logging_test/human_readable.txt"
+twin_rotor = Twin_Rotor()
+data_logger = Simple_Logger(File_Logger(FILE_PATH))
+while True:
+    # print(twin_rotor.update_readings())
+    data_logger.log(twin_rotor)
+```
+This logs the data in the format 
+t=? encoder1=? encoder2=? acc.x=? acc.y=? acc.z=? gyro.x=? gyro.y=? gyro.z=?
 
 
 # Using the Data Plotter
