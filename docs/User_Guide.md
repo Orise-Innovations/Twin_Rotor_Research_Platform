@@ -1,6 +1,51 @@
 
 # Orise Twin Rotor User Guide
 
+
+# Getting Started
+
+# Turning on the Twin Rotor
+After making sure the system is plugged in, press the power button on the system and the power button will cycle through some colors indicating that the system is booting up. This will take approximately 70 seconds. After it finishes booting up the color will become **yellow** and it will stay at that color indicating that the system is ready for operation. This is the stand-by mode.
+## Connecting to the Twin Rotor
+The main way you can connect to the twin rotor is via connecting to it via [SSH](https://en.wikipedia.org/wiki/Secure_Shell).
+### Connecting the Twin Rotor to the Network
+
+### Connecting Via SSH
+Once you have connected the Twin Rotor to the network, connect your device to the same network so you can SSH into the system. 
+You can use any ssh client to connect to the system (ssh that comes with your system or PuTTY) however **we strongly recommend** using [**MobaXterm**](https://mobaxterm.mobatek.net/documentation.html) the rest of this guide will assume you are using MobaXterm.
+
+1. First install MobaXterm at [https://mobaxterm.mobatek.net/download.html](https://mobaxterm.mobatek.net/download.html) if you haven't already. The free version is more than adequate for any use case with the Twin Rotor System.
+
+2. Now we need to create a session so we can easily connect to the system without having to type in a lot of credentials the following steps indicate how to do that. **You only need to do these steps (steps 3-6) once**
+3. Open up MobaXterm and click the Session Tab.
+
+    <img src="assets/mobaexterm_session.png" width=800 >
+
+5. Now in the newly opened window click on the SSH icon. This will open another window. Enter the hostname as **OriseTRS.local** and check the box containing specifyy username and enter the user name as **pi**. Then, click OK. You will get a pop up after this click Accept. (after this you might sometimes get a window saying choose session type in that case choose SSH and click OK.)
+
+    <img src="assets/session_saving_ssh_button.png" width=800 >
+    <img src="assets/session_entering_credentials.png" width=800 >
+    <img src="assets/session_accept_unkown_host.png" width=800 >
+
+6. Once you do the above steps the session information will be saved and you can now connect to the system easily from now on. If you were already connected to the network and the system is connected and ready when you were saving the session, you will be taken directly be taken to the password prompt (see step 8). Otherwise you will get a pop saying the host is not found. This is okay and the session will still be saved, just click OK. Make sure the system is correctly setup before step 7.
+
+7. Now you should see OriseTRS.local (pi) in the user sessions tab in the left (this may be the only entry in your setup). Click on the session to SSH into the system.
+
+    <img src="assets/click_on_session_to_login.png" width=800 >
+
+8. This will open a tab and a password prompt to enter the password prompt. The password is **raspberry** (All in lowe case) enter the password and press enter.(The password wont be shown as you type it make sure you type it correctly and CAP-LOCK is off. If you miss type the password, the system will say Access denied and ask you for the password again.)
+
+    <img src="assets/password_prompt.png" width=800 >
+
+9. Once you enter the password you will be get a pop asking to save the password using a master password click NO for now however if you like to explore this option check out the MobaXterm documentation. Once you do this you will be greeted with a terminal. (It may take a few seconds)
+
+
+    <img src="assets/terminal_page.png" width=800 >
+
+**Now you are logged into the system via SSH**
+
+
+
 # Using the Data Plotter
 The data plotter is a convenient library provided to quickly plot sensor data and other variables quickly while experimenting with the twin rotor.
 
