@@ -1,4 +1,44 @@
+<!-- vscode-markdown-toc -->
+* 1. [Connecting to the Twin Rotor](#ConnectingtotheTwinRotor)
+	* 1.1. [Connecting the Twin Rotor to the Network](#ConnectingtheTwinRotortotheNetwork)
+	* 1.2. [User Credentials](#UserCredentials)
+	* 1.3. [Connecting Via SSH](#ConnectingViaSSH)
+* 2. [Running Examples](#RunningExamples)
+* 3. [Shutting Down](#ShuttingDown)
+* 4. [Controlling Motors](#ControllingMotors)
+	* 4.1. [Set speed of both motors](#Setspeedofbothmotors)
+	* 4.2. [Set speed of motor0](#Setspeedofmotor0)
+	* 4.3. [Set speed of motor1](#Setspeedofmotor1)
+	* 4.4. [Stop motors](#Stopmotors)
+	* 4.5. [Stop motor 0](#Stopmotor0)
+	* 4.6. [Stop motor 1](#Stopmotor1)
+* 5. [Getting Sensor Data](#GettingSensorData)
+* 6. [Using the CSV Logger](#UsingtheCSVLogger)
+* 7. [Using the Simple Logger](#UsingtheSimpleLogger)
+* 8. [Basic Usage - Plotting Raw Sensor Data](#BasicUsage-PlottingRawSensorData)
+* 9. [Importing the Libraries](#ImportingtheLibraries)
+* 10. [Creating the GUI](#CreatingtheGUI)
+* 11. [Adding the plots](#Addingtheplots)
+	* 11.1. [title](#title)
+	* 11.2. [reading_name](#reading_name)
+	* 11.3. [color (Optional)](#colorOptional)
+	* 11.4. [name (Optional)](#nameOptional)
+* 12. [Running the GUI.](#RunningtheGUI.)
+* 13. [Updating buffers and While Loop](#UpdatingbuffersandWhileLoop)
+	* 13.1. [Plotting Custom Data using Custom Buffers **add_custom_buffer_graph**](#PlottingCustomDatausingCustomBuffersadd_custom_buffer_graph)
+	* 13.2. [Plotting by providing a function to calculate data from raw readings.](#Plottingbyprovidingafunctiontocalculatedatafromrawreadings.)
+* 14. [Checking if the Gui is Active](#CheckingiftheGuiisActive)
+* 15. [Things to watch out for.](#Thingstowatchoutfor.)
+* 16. [Trouble Shooting](#TroubleShooting)
+	* 16.1. [The Gui is not starting up](#TheGuiisnotstartingup)
+	* 16.2. [The Gui starts up but no plots (or just some plots) are plotted](#TheGuistartsupbutnoplotsorjustsomeplotsareplotted)
+	* 16.3. [The plots show up but the graphs don't show or anything (or they are static)](#Theplotsshowupbutthegraphsdontshoworanythingortheyarestatic)
 
+<!-- vscode-markdown-toc-config
+	numbering=true
+	autoSave=true
+	/vscode-markdown-toc-config -->
+<!-- /vscode-markdown-toc -->
 # Orise Twin Rotor User Guide
 
 
@@ -7,17 +47,17 @@
 # Turning on the Twin Rotor
 After making sure the system is plugged in, press the power button on the system and the power button will cycle through some colors indicating that the system is booting up. This will take approximately 70 seconds. After it finishes booting up the color will become **yellow** and it will stay at that color indicating that the system is ready for operation. This is the stand-by mode.
 
-## Connecting to the Twin Rotor
+##  1. <a name='ConnectingtotheTwinRotor'></a>Connecting to the Twin Rotor
 The main way you can connect to the twin rotor is via connecting to it via [SSH](https://en.wikipedia.org/wiki/Secure_Shell).
-### Connecting the Twin Rotor to the Network
+###  1.1. <a name='ConnectingtheTwinRotortotheNetwork'></a>Connecting the Twin Rotor to the Network
 
-### User Credentials
+###  1.2. <a name='UserCredentials'></a>User Credentials
 | | |
 |---|---|
 |Hostname|OriseTRS|
 |Username|pi|
 |default password|raspberry|
-### Connecting Via SSH
+###  1.3. <a name='ConnectingViaSSH'></a>Connecting Via SSH
 Once you have connected the Twin Rotor to the network, connect your device to the same network so you can SSH into the system. 
 You can use any ssh client to connect to the system (ssh that comes with your system or PuTTY) however **we strongly recommend** using [**MobaXterm**](https://mobaxterm.mobatek.net/documentation.html) the rest of this guide will assume you are using MobaXterm.
 
@@ -52,7 +92,7 @@ You can use any ssh client to connect to the system (ssh that comes with your sy
 
 **Now you are logged into the system via SSH**
 
-## Running Examples
+##  2. <a name='RunningExamples'></a>Running Examples
 1. Navigate to the Twin_Rotor_Research_Platform and list the files.
 
 2. Run your chosen example, with python3,
@@ -66,7 +106,7 @@ python3 pid_fixed_set_point_example.py
 
 4. Close the resulting GUI window to close the program.
 
-## Shutting Down 
+##  3. <a name='ShuttingDown'></a>Shutting Down 
 It is **strongly recommended** that you shutdown the raspberry pi before you press the power off button. You can do it with the following command
 ```bash
 sudo shutdown -h now
@@ -113,7 +153,7 @@ twin_rotor = Twin_Rotor()
 >
 >Only one Twin_Rotor object should be constructed in the program
 
-## Controlling Motors
+##  4. <a name='ControllingMotors'></a>Controlling Motors
 Controlling the motors can be done using the motors object inside a Twin_Rotor object.
 
 ```python
@@ -131,37 +171,37 @@ while True:
 
 There are several useful methods defines to control the motors, for the next few examples we assume we have created a twin_rotor object as above.
 
-### Set speed of both motors
+###  4.1. <a name='Setspeedofbothmotors'></a>Set speed of both motors
 ```python
 twin_rotor.motors.set_speed(m0_speed_rpm,m1_speed_rpm)
 ```
 
 the provided speeds must be in rpm
-### Set speed of motor0
+###  4.2. <a name='Setspeedofmotor0'></a>Set speed of motor0
 ```python
 twin_rotor.motors.set_speed_M0(speed_rpm)
 ```
 
-### Set speed of motor1
+###  4.3. <a name='Setspeedofmotor1'></a>Set speed of motor1
 ```python
 twin_rotor.motors.set_speed_M1(speed_rpm)
 ```
 
-### Stop motors
+###  4.4. <a name='Stopmotors'></a>Stop motors
 ```python
 twin_rotor.motors.stop()
 ```
 
-### Stop motor 0
+###  4.5. <a name='Stopmotor0'></a>Stop motor 0
 ```python
 twin_rotor.motors.stopM0()
 ```
 
-### Stop motor 1
+###  4.6. <a name='Stopmotor1'></a>Stop motor 1
 ```python
 twin_rotor.motors.stopM1()
 ```
-## Getting Sensor Data
+##  5. <a name='GettingSensorData'></a>Getting Sensor Data
 A typical use case for getting sensor data is as follows,
 ```python
 from Orise_Twin_Rotor import Twin_Rotor
@@ -227,7 +267,7 @@ This is just a convenience function that gives the pitch using $tan^{-1}{acc_x/a
 # Logging Data
 Two simple loggers are provided with the library for convenience these load the sensor readings into a file or to the standard out these are just provided for convenince purposes for logginf custom data such as calculated values and set points making your own loggers using libraries such as [csv](https://docs.python.org/3/library/csv.html) is recommended.
 
-## Using the CSV Logger
+##  6. <a name='UsingtheCSVLogger'></a>Using the CSV Logger
 
 ```python
 FILE_PATH =  "logging_test/csv_data_logger.csv"
@@ -238,7 +278,7 @@ while True:
 ```
 This logs the data as a csv file
 
-## Using the Simple Logger
+##  7. <a name='UsingtheSimpleLogger'></a>Using the Simple Logger
 ```python
 FILE_PATH =  "logging_test/human_readable.txt"
 twin_rotor = Twin_Rotor()
@@ -254,7 +294,7 @@ t=? encoder1=? encoder2=? acc.x=? acc.y=? acc.z=? gyro.x=? gyro.y=? gyro.z=?
 # Using the Data Plotter
 The data plotter is a convenient library provided to quickly plot sensor data and other variables quickly while experimenting with the twin rotor.
 
-## Basic Usage - Plotting Raw Sensor Data
+##  8. <a name='BasicUsage-PlottingRawSensorData'></a>Basic Usage - Plotting Raw Sensor Data
 
 Let's consider the following code for instantiating the gui as an example.
 
@@ -305,7 +345,7 @@ Considering the above program three things need to be done to successfully creat
 
 In addition to the above three the data_buffers need to be updated as well with the incoming data.
 
-## Importing the Libraries
+##  9. <a name='ImportingtheLibraries'></a>Importing the Libraries
 ```python
 from Orise_Twin_Rotor import Create_Gui 
 ```
@@ -320,7 +360,7 @@ from Orise_Twin_Rotor import Twin_Rotor
 ```
 this is used to get sensor data from the instrument and controlling the instrument this is not related to the gui, the data obtained from the twin rotor will be imported to the
 
-## Creating the GUI
+##  10. <a name='CreatingtheGUI'></a>Creating the GUI
 Make sure you have imported the necessary libraries
 
 
@@ -337,7 +377,7 @@ when creating the data_buffer object you must pass in a size (in the above examp
 
 Once this is done you can move on to adding the plots that you need
 
-## Adding the plots
+##  11. <a name='Addingtheplots'></a>Adding the plots
 There are three ways to plot the data, in this example one way will be illustrated (that is the way to plot the raw sensor data). The other two ways will be explained subsequently
 
 ```python
@@ -357,12 +397,12 @@ gui_application.add_twin_rotor_data(title:str,
 ```
 The first two parameters are required and the last two are optional.
 
-### title
+###  11.1. <a name='title'></a>title
 The first parameter title is a string which is name of the plot that the graph is added to, if a plot by that name does not already exist it will be created, otherwise the graph will be added to the existing plot.
 
 So for example in the above graph two plots will be created one names **encoder** and one named **mag** the encoder plot will display **one graph** and the plot named mag will show **three graphs**
 
-### reading_name
+###  11.2. <a name='reading_name'></a>reading_name
 reading_name. this is the name of the reading that you wish to plot you can provide this as a string like 'encoder1' instead of READING_NAMES.ENCODER1 but you need to make sure the name matches exactly and spelling is correct and such. It is much easier to import READING_NAMES and choose the reading that you desire. You can provide one of the following options
 
 - READING_NAMES.ENCODER1 
@@ -383,13 +423,13 @@ you could also pass one of ("encoder1","acc_x","acc_y","acc_z","gyro_x","gyro_y"
 gui_application.add_twin_rotor_data("encoder","encoder1",(255,0,0))
 ```
 
-### color (Optional)
+###  11.3. <a name='colorOptional'></a>color (Optional)
 This is an optional parameter you can pass giving the color of the graph that is plotted. The color must be ginve as a three tuple of integers in (r,g,b) format the number must be a value between 0-255. If a color is not passed the graph will be plotted in the default color
 
-### name (Optional)
+###  11.4. <a name='nameOptional'></a>name (Optional)
 This is another optional parameters that gives a name to the plot. This is useful when plotting many graphs in the same plot, since this will automatically create a legend to the plots that you a gave name to in the above graph the enocoder plot will have no legend and the mag plot will have legend indicating the names of the three plots.
 
-## Running the GUI.
+##  12. <a name='RunningtheGUI.'></a>Running the GUI.
 Once you start the GUI you can run it using
 
 ```python
@@ -399,7 +439,7 @@ gui_application.start()
 >
 > Make sure this command is executed **after** you have added the plots. Any plots that is added afterwards will not be rendered.
 
-## Updating buffers and While Loop
+##  13. <a name='UpdatingbuffersandWhileLoop'></a>Updating buffers and While Loop
 Everything necessary to setup the gui is done then we have the main program loop. 
 
 ```python
@@ -432,7 +472,7 @@ The above example showcases the most basic form of plotting that is plotting the
 
 Most of the parameters are identical to the methods discussed before and behave in exactly the same way (as before the last two parameters are optional). The only difference is in the second parameter which specifies what data to be plotted. This will be discussed for the two methods seperately.
 
-### Plotting Custom Data using Custom Buffers **add_custom_buffer_graph**
+###  13.1. <a name='PlottingCustomDatausingCustomBuffersadd_custom_buffer_graph'></a>Plotting Custom Data using Custom Buffers **add_custom_buffer_graph**
 This can be used to plot a time varying parameter that you calculate(pitch,roll,yaw using IMU fusion, pid control value etc.) or some parameter you set (set point that the pid is supposed to follow etc.) consider the following code example. **Only a portion of the code is shown** for sake of clarity and parts that are not relevant to the discussion are removed (indicated by Some code)
 ```python
 ######
@@ -536,7 +576,7 @@ If you have more than one value (in which case you must have an equal number of 
 For 99% use cases the above two functions will suffice there is one more way to plot functions but that is a bit more trickier so use it only if you have a real need for it.
 
 
-### Plotting by providing a function to calculate data from raw readings.
+###  13.2. <a name='Plottingbyprovidingafunctiontocalculatedatafromrawreadings.'></a>Plotting by providing a function to calculate data from raw readings.
 This is a older function to plot data that is convenient in some cases but require some familiarity with python to use effectively, consider the following example
 
 ```python
@@ -627,22 +667,22 @@ gui_application.add_time_graph("pitch",lambda x: np.arctan2(x.acc_x.numpy_data,x
 >You can also use other variables defined in your program in the function as well. This can be done by capturing them in the function closure or by using a callable class (a class with __call__ defined in it) however when ever you do this you need to make sure this data is thread safe, if you are unsure of what that means it is recommended to use custom data buffers instead.
 
 
-## Checking if the Gui is Active
+##  14. <a name='CheckingiftheGuiisActive'></a>Checking if the Gui is Active
 you can check whether the user has closed the gui or not by using the .active property on the gui. If it is True then the gui is still active if it is False then the gui was closed by the user.
 
-## Things to watch out for.
+##  15. <a name='Thingstowatchoutfor.'></a>Things to watch out for.
 If you are terminating the program using a keyboard interrupt (Ctrl+C) make sure you close the gui before hand otherwise the program may crash
 
 
-## Trouble Shooting
-### The Gui is not starting up
+##  16. <a name='TroubleShooting'></a>Trouble Shooting
+###  16.1. <a name='TheGuiisnotstartingup'></a>The Gui is not starting up
 - Make sure you are calling **.start()**
 - Make sure you are ssh-ing into the raspberrypi using a program that supports X11 forwarding of guis such as MobaXterm 
 
-### The Gui starts up but no plots (or just some plots) are plotted
+###  16.2. <a name='TheGuistartsupbutnoplotsorjustsomeplotsareplotted'></a>The Gui starts up but no plots (or just some plots) are plotted
 - Make sure you are adding the plots **before** calling **.start()**
 
-### The plots show up but the graphs don't show or anything (or they are static)
+###  16.3. <a name='Theplotsshowupbutthegraphsdontshoworanythingortheyarestatic'></a>The plots show up but the graphs don't show or anything (or they are static)
 - Make sure you are updating your buffers,sensor readings that is make sure you correclty calling the functions, 
     - .update_buffers on Data_Buffers object
     - .push on Custom_Buffers
