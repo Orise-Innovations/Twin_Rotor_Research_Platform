@@ -10,6 +10,12 @@ After making sure the system is plugged in, press the power button on the system
 The main way you can connect to the twin rotor is via connecting to it via [SSH](https://en.wikipedia.org/wiki/Secure_Shell).
 ### Connecting the Twin Rotor to the Network
 
+### User Credentials
+| | |
+|---|---|
+|Hostname|OriseTRS|
+|Username|pi|
+|default password|raspberry|
 ### Connecting Via SSH
 Once you have connected the Twin Rotor to the network, connect your device to the same network so you can SSH into the system. 
 You can use any ssh client to connect to the system (ssh that comes with your system or PuTTY) however **we strongly recommend** using [**MobaXterm**](https://mobaxterm.mobatek.net/documentation.html) the rest of this guide will assume you are using MobaXterm.
@@ -21,10 +27,11 @@ You can use any ssh client to connect to the system (ssh that comes with your sy
 
     <img src="assets/mobaexterm_session.png" width=800 >
 
-5. Now in the newly opened window click on the SSH icon. This will open another window. Enter the hostname as **OriseTRS.local** and check the box containing specifyy username and enter the user name as **pi**. Then, click OK. You will get a pop up after this click Accept. (after this you might sometimes get a window saying choose session type in that case choose SSH and click OK.)
+5. Now in the newly opened window click on the SSH icon. This will open another window. Enter the hostname as **OriseTRS.local** and check the box containing specifyy username and enter the user name as **pi**. Click on **Advanced SSH settings** and choose **SCP enhanced speed**. Then, click OK. You will get a pop up after this click Accept. (after this you might sometimes get a window saying choose session type in that case choose SSH and click OK.)
 
     <img src="assets/session_saving_ssh_button.png" width=800 >
-    <img src="assets/session_entering_credentials.png" width=800 >
+    <img src="assets/new_session_save1.png.png" width=800 >
+    <img src="assets/saving_session_5.png" width=800 >
     <img src="assets/session_accept_unkown_host.png" width=800 >
 
 6. Once you do the above steps the session information will be saved and you can now connect to the system easily from now on. If you were already connected to the network and the system is connected and ready when you were saving the session, you will be taken directly be taken to the password prompt (see step 8). Otherwise you will get a pop saying the host is not found. This is okay and the session will still be saved, just click OK. Make sure the system is correctly setup before step 7.
@@ -44,7 +51,56 @@ You can use any ssh client to connect to the system (ssh that comes with your sy
 
 **Now you are logged into the system via SSH**
 
+## Running Examples
+1. Navigate to the Twin_Motor_Demo and list the files.
 
+2. Run your chosen example, with python3,
+```bash
+python3 data_plotter_example.py
+```
+3. You will get a gui window plotting the encoder and pitch data. 
+
+
+    <img src="assets/running_examples.png" width=800 >
+
+4. Close the resulting GUI window to close the program.
+
+## Shutting Down 
+It is **strongly recommended** that you shutdown the raspberry pi before you press the power off button. You can do it with the following command
+```bash
+sudo shutdown -h now
+```
+# Transferring Files
+Connect to the pi using ssh and Click on the file browser tab.
+    <img src="assets/file_browser_tab.png" width=800 >
+    <img src="assets/borwser_tab_opened.png" width=800 >
+
+You can exlpore the file system using this tab. You can also upload and download files by draggin and dropping. (You can also use download and upload buttons)
+
+# Editing Files and Coding on the System
+
+There are several ways to edit files on the system
+1. Terminal Text Editor like nvim (nvim, vim and nano are installed on the system.)
+2. Using MobaXterm.
+    You can edit a file by navigating to the file and right clicking on it if you can select on several options if you select open with you can open it in your default text editor and after making the necessary changes MobaExterm will ask whether to update the changes click YES to that.
+
+3. Using VsCode. (Recommended)
+    1. Open VsCode
+    2. Install the Remote-SSH extension
+
+        <img src="assets/vscode_remote_ssh_1.png" width=800 >
+    3. Click on the Open Remote Window Option and select Connect to Host
+
+        <img src="assets/remote_connection_2.png" width=800 >
+    4. Type in the hostname as pi@OriseTRS.local 
+
+        <img src="assets/entering_hostname_vscode.png" width=800 >
+    5. This will open a new window. It will ask the platform type choose Linux. In the next part click Coninue. Finally enter the password when prompted. 
+
+    6. Select Open Folder and select the folder of your choosing.
+
+        <img src="assets/click_on_open_folder.png" width=800 >
+        <img src="assets/select_the_folder.png" width=800 >
 
 # Using the Data Plotter
 The data plotter is a convenient library provided to quickly plot sensor data and other variables quickly while experimenting with the twin rotor.
